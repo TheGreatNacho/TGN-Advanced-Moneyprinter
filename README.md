@@ -20,11 +20,4 @@ printer_overclocker
 printer_cooler
 printer_failsafe
 
-The money printers come with a config file. Only catch is, you need to extract the addon using gmad extractor to edit it.
-http://www.treesoft.dk/gmod/gmad/
-EDIT
--------------------------------------------------------------------
-Downloadable version: https://dl.dropboxusercontent.com/u/7805957/AdvancedMoneyprinter.zip
-That archive needs 7zip to be extracted.
-
 Pastebin for lasy people: http://pastebin.com/KchGzuQi
