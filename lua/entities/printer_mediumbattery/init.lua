@@ -48,4 +48,4 @@ function ENT:Touch(ent)
 end
 
 
---Copyright © Edward Peter Lemon AKA "TheGreatNacho", 2013
+--Copyright ï¿½TheGreatNacho", 2013

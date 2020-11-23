@@ -1,16 +1,9 @@
-/*---------------------------------------------------------------------------
+--[[-------------------------------------------------------------------------
 Nacho's Money Printer
----------------------------------------------------------------------------*/
+-------------------------------------------------------------------------]]--
 include("shared.lua")
 include("config.lua")
 function CanLevel(ply)
-	for k,v in pairs(Config.CanLevelRanks) do
-		if not (ply:GetUserGroup() == nil) then
-			if ply:GetUserGroup() == v then
-				return true
-			end
-		end
-	end
 	return false
 end
 function ENT:Initialize()
@@ -114,16 +107,60 @@ function ENT:Draw()
 			if (Size1>0) then
 				draw.RoundedBox(1, -118,102,Size1,15, self:GetNWVector("Color"))
 			end
-			draw.DrawText("XP: "..txt5.."|100", "BudgetLabel", 0, 102, Color(255,255,255,255), 1)
+			--draw.DrawText("XP: "..txt5.."|100", "BudgetLabel", 0, 102, Color(255,255,255,255), 1)
 			draw.DrawText("Power: "..self:GetPower().."|"..(Config.DefaultMaxPower*self:GetBatLevel()), "BudgetLabel", 0, 72, Color(255,255,255,255), 1)
 		else
-			draw.RoundedBox(1, -121,71,242,44, self:GetNWVector("Color"))
-			draw.RoundedBox(1, -121,71,242,44, Color(0,0,0,150))
-			draw.RoundedBox(1, -118,74,236,38, Color(255,255,255,255))
+			--draw.RoundedBox(1, -121,71,242,44, self:GetNWVector("Color"))
+			--draw.RoundedBox(1, -121,71,242,44, Color(0,0,0,150))
+			--draw.RoundedBox(1, -118,74,236,38, Color(255,255,255,255))
 			if (Size1>0) then
-				draw.RoundedBox(1, -118,74,Size1,38, self:GetNWVector("Color"))
+				--draw.RoundedBox(1, -118,74,Size1,38, self:GetNWVector("Color"))
 			end
-			draw.DrawText("XP: "..txt5.."|100", "BudgetLabel", 0, 85, Color(255,255,255,255), 1)
+			--draw.DrawText("XP: "..txt5.."|100", "BudgetLabel", 0, 85, Color(255,255,255,255), 1)
+		end
+
+		if (self:GetPToggle()) then
+			time = CurTime()*10
+		else 
+			time = 0
+		end
+
+		if self:GetFailSafes() > 0 then
+			surface.SetDrawColor(100,100,100,50)
+			surface.DrawRect(-121, 50, 64, 64)
+			
+			draw.DrawText(self:GetFailSafes(), "HUDNumber5", -88,51,Color(255,255,255),TEXT_ALIGN_CENTER)
+			surface.DrawRect(-121, 82, 64, 32)
+			draw.DrawText(math.Round(Heat).."/"..math.Round(self:GetMaxFSHeat()), "BudgetLabel", -88,90,Color(255,255,255),TEXT_ALIGN_CENTER)
+		end
+
+		if self:GetCooler() then
+			surface.SetDrawColor(100,100,100,50)
+			surface.DrawRect(-31, 50, 64, 64)
+
+			surface.SetDrawColor(255,255,255)
+			surface.DrawCircle(1,82,32,Color(255,255,255))
+			if (self:GetPToggle()) then
+				time = CurTime()*10
+			else 
+				time = 0
+			end
+
+			for i=0, 7, 0.7 do
+			surface.DrawLine(1,82,(math.sin(time+i)*32)+1,(math.cos(time+i)*32)+82)
+			surface.DrawLine(1,82,(math.sin(time+i-0.5)*32)+1,(math.cos(time+i-0.5)*32)+82)
+			end
+		end
+
+		if self:GetOC() then
+			surface.SetDrawColor(100,100,100,50)
+			surface.DrawRect(57, 50, 64, 64)
+
+			polycolor = Color(255,255,255)
+			surface.SetDrawColor(polycolor)
+			surface.DrawRect(57,50,21,(math.sin(time)+1)*32)
+			surface.DrawRect(78,114,21,-(math.sin(time)+1)*32)
+			surface.DrawRect(99,50,21,(math.sin(time)+1)*32)
 		end
 	cam.End3D2D()
 	
@@ -283,16 +320,17 @@ function ENT:Derma()
 			
 		end
 	end
-	if Config.SuperAdminsCanLevel == true and CanLevel(ply) then
+	if CanLevel(ply) or true then
 		LevUp = vgui.Create("DButton")
 		LevUp:SetParent( Panal )
 		LevUp:SetText( "" )
 		LevUp:SetPos(10,135)
 		LevUp:SetSize( (SizeX/2)-20, 40 )
 		LevUp.Paint = function(w,h)
+			local price = (1000)*math.pow(2, self:GetLVL())
 			surface.SetDrawColor(self:GetNWVector("Color").x, self:GetNWVector("Color").y, self:GetNWVector("Color").z)
 			surface.DrawRect( 0, 0, SizeX/2 - 20,40 )
-			draw.DrawText("Level Up", "DarkRPHUD1", ((SizeX/2)-20)/2, 12, Color(255,255,255,255), 1)
+			draw.DrawText("Level Up ["..price.."]", "DarkRPHUD1", ((SizeX/2)-20)/2, 12, Color(255,255,255,255), 1)
 		end
 		LevUp.DoClick = function ( btn )
 			net.Start("DataSend")

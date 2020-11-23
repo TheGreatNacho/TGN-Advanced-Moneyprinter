@@ -1,6 +1,6 @@
-/*---------------------------------------------------------------------------
+--[[-------------------------------------------------------------------------
 Nacho's Money Printer
----------------------------------------------------------------------------*/
+-------------------------------------------------------------------------]]--
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 AddCSLuaFile("config.lua")
@@ -13,15 +13,9 @@ ENT.SeizeReward = 950
 local PrintMore
 local ReHeat
 local dhold = 0
-function CanLevel(ply)
-	for k,v in pairs(Config.CanLevelRanks) do
-		if not (ply:GetUserGroup() == nil )then
-			if ply:GetUserGroup() == v then
-				return true
-			end
-		end
-	end
-	return false
+function CanLevel(ply, ent)
+	local price = (1000)*math.pow(2, ent:GetLVL())
+	return (ply:getDarkRPVar("money") >= price)
 end
 
 
@@ -318,8 +312,12 @@ net.Receive("DataSend", function()
 		end
 	end
 	if IntType == 4 then
-		if CanLevel(ply) then
+		if CanLevel(ply, ent) then
+			local price = (1000)*math.pow(2, ent:GetLVL())
+			ply:addMoney(-price)
 			ent:LevelUp()
+		else
+			DarkRP.notify(ply, 0, 5, "You can't afford that.")
 		end
 	end
 end)

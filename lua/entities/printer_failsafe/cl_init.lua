@@ -69,4 +69,4 @@ net.Receive("DermaFS", function()
 	net.ReadEntity():Derma(net.ReadFloat())
 end)
 
---Copyright © Edward Peter Lemon AKA "TheGreatNacho", 2013
+--Copyright ï¿½TheGreatNacho", 2013

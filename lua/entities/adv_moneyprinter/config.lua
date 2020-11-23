@@ -26,7 +26,9 @@ Config.BatteryUpgrade = 300
 // The maximum level of the printer | Requires Config.LevelCap = true, otherwise it is infinite					
 Config.MaxLevel = 10
 // The amount of XP you gain per print at level 1										
-Config.XPBoost = 4							
+Config.XPBoost = 4
+// The price to level up the printer at level 1
+Config.LevelupPrice = 500				
 
 --ULX only
 //Which ranks have the levelup button displayed on their printer menu.
@@ -40,6 +42,8 @@ Config.SuperAdminsCanLevel = true
 Config.LevelCap = false
 //Is the level of the printers capped based on rank?
 Config.CapRanks = true
+//Does it cost to upgrade the printer?
+Config.LevelupRequiresMoney = false
 
 --[[
 The ranks to cap.

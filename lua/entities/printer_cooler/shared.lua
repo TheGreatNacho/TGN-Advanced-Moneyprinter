@@ -7,4 +7,4 @@ ENT.Spawnable = true
 ENT.AdminSpawnable = false
 
 
---Copyright © Edward Peter Lemon AKA "TheGreatNacho", 2013
+--Copyright ï¿½ TheGreatNacho, 2013
